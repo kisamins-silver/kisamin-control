@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <title>
+            Chaparral Laboratories, Inc.
+        </title>
+
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+        <!--kill favicon.ico requests-->
+        <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    </head>
+
+    <body ng-app="Webdata" ng-controller="loaderCtrl" ng-cloak>
+    	<div ng-repeat="type in fields">
+            {{type.name}}
+        </div>
+        <div ng-repeat="input in inputs">
+            {{input.label}}
+            <span ng-include="input.component"></span>
+        </div>
+    </body>
+
+    <script>
+
+        app = angular.module('Webdata',[])
+
+        app.controller("loaderCtrl",function($scope, $http){
+
+            function praseObject(obj){
+
+            }
+
+            function praseFields(array){
+                var i = 0
+                for(i;i<array.length;i++){
+                    
+                }
+            }
+
+            var qry = encodeURIComponent('{__schema{types{name,fields{name,type{kind,name,fields{name,type{kind,name,ofType{kind,name}},args{name,defaultValue}}}}}}}')
+
+            $scope.fields = []
+
+            $scope.inputs = []
+
+            $http.get('api/?query='+qry).then(
+
+                function(res){
+
+                    $scope.fields = res.data.data.__schema.types
+
+                    praseFields($scope.fields)
+
+                },
+
+                function(error){
+
+                    //console.log(error)
+
+                }
+            )
+        })
+
+    </script>
+</html>
