@@ -16,7 +16,7 @@
     "index.html",
     "start.js"
   ],
-  "bin": {"main":"./start.js"},
+  "scripts": {"start":"node start.js"},
   "devDependencies": {},
   "dependencies": {}
 }
