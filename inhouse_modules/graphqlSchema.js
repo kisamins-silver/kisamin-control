@@ -1,8 +1,7 @@
   var config = require('../config')
   var fs = require('fs')
   
-  var sql = require('seriate')
-  sql.addConnection(config.db)
+  var sql = {}
 
   var _ = require('lodash')
 
@@ -18,72 +17,7 @@
 
 // graphql schemas
   function masterSchemaQueryConstructor (arg) {
-    var sqlstr = ''
-    var select = ''
-    var where = ''
-    var sqlParams = {}
-    _.forEach(arg.select, function (value, key) {
-      select += ' ' + value + ','
-    })
-    if (select.length) {
-      select = select.slice(0, -1)
-    }
-    _.forEach(arg.params, function (value, key) {
-      switch (value.param) { // userid and pass will be special cases for direct =
-        case 'userid':
-          where += key + ' = @userid AND '
-          sqlParams.userid = value.value
-          break
-        case 'pass':
-          where += key + " = HASHBYTES('SHA1', CONVERT(nvarchar(4000),@pass)) AND "
-          sqlParams.pass = value.value
-          break
-        case 'mth':
-        case 'yr':
-          where += key + ' = @' + value.param + ' AND '
-          sqlParams[value.param] = value.value
-          break
-        default:
-          where += key + ' IN (SELECT value FROM @' + value.param + ') AND '
-          sqlParams[value.param] = {val: _.castArray(value.value), type: sql.NVarChar, asTable: true}
-      }
-    })
-
-    if (arg.distinct) {
-      sqlstr = 'SELECT DISTINCT' + select + ' FROM ' + arg.from
-    } else {
-      sqlstr = 'SELECT' + select + ' FROM ' + arg.from
-    }
-
-    if (arg.group && arg.group.length && arg.having) {
-      sqlstr += ' GROUP BY ' + arg.group
-    }
-    if (where.length) {
-      if (arg.having) {
-        sqlstr += ' HAVING '
-      } else {
-        sqlstr += ' WHERE '
-      }
-      sqlstr += where.slice(0, -5)
-    }
-    if (arg.group && arg.group.length && !arg.having) {
-      sqlstr += ' GROUP BY ' + arg.group
-    }
-    if (arg.orderby && arg.orderby.length) {
-      sqlstr += ' ORDER BY ' + arg.orderby
-    }
-
-    return sql.execute('SMv9', {query: sqlstr, params: sqlParams})
-              .then(
-                function (results) {
-                  if (arg.top > 1) {
-                    return results
-                  } else {
-                    return results[0]
-                  }
-                },
-                function (error) { return error }
-              )
+    return 1
   }
 
   const analysis_result = new GraphQLObjectType({
