@@ -15,6 +15,32 @@
   var GraphQLBoolean = graphqlReq.GraphQLBoolean
   var GraphQLNonNull = graphqlReq.GraphQLNonNull
 
+  var data = {
+	avatar: {
+		key: "789",
+		username: "lilshino Resident",
+		display_name: "Kisa's Silver"
+	},
+	owner: {
+		avatar: {
+			key: "456"
+			username: "Kisamin Resident",
+			display_name: "Kisamin"
+		},
+		slaves: function() { return [data] }
+	},
+	restrictions: [
+		{
+			command: "abc",
+			allow: false
+		},
+		{
+			command: "123",
+			allow: true
+		}
+	]
+  }
+
 // graphql schemas
 
 	const rlv_command = new GraphQLObjectType({
@@ -105,19 +131,19 @@
       owners: {
         type: new GraphQLList ( owner_avatar ),
         args: {
-          avatar: { type: avatar }
+          avatar_key: { type: GraphQLString }
         },
         resolve (parent, args, request) {
-          return args
+          return data.owner
         }
       },
       slaves: {
         type: new GraphQLList ( slave_avatar ),
         args: {
-          avatar: { type: avatar }
+          avatar_key: { type: GraphQLString }
         },
         resolve (parent, args, request) {
-          return args
+          return data
         }
       }
     }
