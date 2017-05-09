@@ -137,10 +137,10 @@
           return [data.owner]
         }
       },
-      slaves: {
+      slave: {
         type: new GraphQLList ( slave_avatar ),
         args: {
-          avatar_key: { type: GraphQLString }
+          avatar_key: { type: new GraphQLNonNull ( GraphQLString ) }
         },
         resolve (parent, args, request) {
           return [data]
