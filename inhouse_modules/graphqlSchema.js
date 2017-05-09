@@ -23,7 +23,7 @@
 	},
 	owner: {
 		avatar: {
-			key: "456"
+			key: "456",
 			username: "Kisamin Resident",
 			display_name: "Kisamin"
 		},
