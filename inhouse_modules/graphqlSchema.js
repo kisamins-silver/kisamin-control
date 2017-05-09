@@ -134,7 +134,7 @@
           avatar_key: { type: GraphQLString }
         },
         resolve (parent, args, request) {
-          return data.owner
+          return [data.owner]
         }
       },
       slaves: {
@@ -143,7 +143,7 @@
           avatar_key: { type: GraphQLString }
         },
         resolve (parent, args, request) {
-          return data
+          return [data]
         }
       }
     }
