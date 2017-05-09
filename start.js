@@ -35,4 +35,4 @@
   })
 
 // startup server
-  httpServer.listen(process.env.PORT, config.startFn(process.env.PORT))
+  httpServer.listen(8080, config.startFn(8080))
