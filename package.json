@@ -1,13 +1,13 @@
 {
-  "name": "ChaparralWebsite",
-  "version": "2.0.0",
-  "description": "Website for Chaparral Laboratories, Inc.",
-  "homepage": "http://chaparrallabs.com",
+  "name": "kisamin-control",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "http://secondlife.com",
   "license": "MIT",
   "author": {
-    "name": "Jonathan D. Price",
-    "email": "info@chaparrallabs.com",
-    "url": "http://chaparrallabs.com"
+    "name": "Christine Price",
+    "email": "kisamins.christine@gmail.com",
+    "url": ""
   },
   "contributors": [],
   "files": [
@@ -17,41 +17,6 @@
     "start.js"
   ],
   "bin": {"main":"./start.js"},
-  "devDependencies": {
-    "nodemon": "^1.11.0",
-    "standard": "^8.6.0"
-  },
-  "dependencies": {
-    "activedirectory": "^0.7.2",
-    "angular": "^1.5.10",
-    "angular-animate": "^1.5.10",
-    "angular-aria": "^1.5.10",
-    "angular-chart.js": "^1.1.1",
-    "angular-data-table": "^0.7.0",
-    "angular-material": "^1.1.1",
-    "angular-sanitize": "^1.5.10",
-    "angular-socket-io": "^0.7.0",
-    "angular1-apollo": "^0.1.0",
-    "apollo-client": "^0.6.0",
-    "async": "^2.1.4",
-    "chart.js": "^2.4.0",
-    "clientjs": "^0.1.11",
-    "cors": "^2.8.1",
-    "express": "^4.14.0",
-    "express-graphql": "^0.6.1",
-    "express-ipfilter": "^0.2.1",
-    "graphql": "^0.8.2",
-    "graphql-tag": "^1.2.2",
-    "helmet": "^3.3.0",
-    "jsonwebtoken": "^7.2.1",
-    "lodash": "^4.17.4",
-    "materialize-css": "^0.97.8",
-    "moment": "^2.17.1",
-    "object-hash": "^1.1.5",
-    "pdf-merge": "^0.1.0",
-    "pdfkit": "^0.8.0",
-    "request": "^2.79.0",
-    "seriate": "^0.8.1",
-    "socket.io": "^1.7.2"
-  }
+  "devDependencies": {},
+  "dependencies": {}
 }
