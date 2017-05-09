@@ -14,9 +14,9 @@
     "node_modules",
     "static",
     "index.html",
-    "node.js"
+    "start.js"
   ],
-  "bin": {"main":"./node.js"},
+  "bin": {"main":"./start.js"},
   "devDependencies": {
     "nodemon": "^1.11.0",
     "standard": "^8.6.0"
