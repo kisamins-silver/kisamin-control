@@ -185,8 +185,21 @@
         },
         resolve (parent, args, request) {
 		if(request.headers['x-secondlife-owner-key']) return [silver]
-		return [silver,lucy,andrea]
-        }
+		switch(args.slave_key){
+			case "bea2df0a-0929-4ea7-bcdb-a14c11c8aa6b":
+				return [silver]
+				break
+			case "a6d66178-5d32-4bdf-86a3-a4c24733d790":
+				return [lucy]
+				break
+			case "f6114045-8826-4cd2-ada8-7f1fa0b88476":
+				return [andrea]
+				break
+			default:
+				if(args.slave_key) return []
+				return [silver,lucy,andrea]
+		}
+		}
       }
     }
   })
