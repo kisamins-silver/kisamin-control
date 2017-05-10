@@ -15,20 +15,13 @@
   var GraphQLBoolean = graphqlReq.GraphQLBoolean
   var GraphQLNonNull = graphqlReq.GraphQLNonNull
 
-  var data = {
+  var silver = {
 	avatar: {
-		key: "789",
+		key: "bea2df0a-0929-4ea7-bcdb-a14c11c8aa6b",
 		username: "lilshino Resident",
 		display_name: "Kisa's Silver"
 	},
-	owner: {
-		avatar: {
-			key: "456",
-			username: "Kisamin Resident",
-			display_name: "Kisamin"
-		},
-		owned_slaves: function() { return [data] }
-	},
+	owner: function(){return kisamin},
 	restrictions: [
 		{
 			command: "abc",
@@ -39,6 +32,53 @@
 			allow: true
 		}
 	]
+  }
+
+  var lucy = {
+	avatar: {
+		key: "a6d66178-5d32-4bdf-86a3-a4c24733d790",
+		username: "LucyAtreides Resident",
+		display_name: "LucyAtreides"
+	},
+	owner: function(){return kisamin},
+	restrictions: [
+		{
+			command: "abc",
+			allow: false
+		},
+		{
+			command: "123",
+			allow: true
+		}
+	]
+  }
+
+  var andrea = {
+	avatar: {
+		key: "f6114045-8826-4cd2-ada8-7f1fa0b88476",
+		username: "Andrea80 Sands",
+		display_name: "andrea"
+	},
+	owner: function(){return kisamin},
+	restrictions: [
+		{
+			command: "abc",
+			allow: false
+		},
+		{
+			command: "123",
+			allow: true
+		}
+	]
+  }
+
+  var kisamin = {
+	avatar: {
+		key: "c4421daa-bb7a-47ab-8d99-a8c5671ac3e6",
+		username: "Kisamin Resident",
+		display_name: "Kisamin"
+	},
+	owned_slaves: [silver, lucy, andrea]
   }
 
 // graphql schemas
@@ -79,8 +119,7 @@
 		fields: function () {
 			return {
 				key: {
-					type: GraphQLString,
-					resolve(parent, args, request){ return request.headers['x-secondlife-owner-key'] }
+					type: GraphQLString
 				},
 				username: {
 					type: GraphQLString
@@ -132,19 +171,21 @@
       owners: {
         type: new GraphQLList ( owner_avatar ),
         args: {
-          avatar_key: { type: GraphQLString }
+          owner_key: { type: GraphQLString }
         },
         resolve (parent, args, request) {
-          return [data.owner]
+          return [kisamin]
         }
       },
       slaves: {
         type: new GraphQLList ( slave_avatar ),
         args: {
-          avatar_key: { type: new GraphQLNonNull ( GraphQLString ) }
+          slave_key: { type: GraphQLString },
+		  owner_key: { type: GraphQLString }
         },
         resolve (parent, args, request) {
-          return [data]
+		if(request.headers['x-secondlife-owner-key']) return [silver]
+		return [silver,lucy,andrea]
         }
       }
     }
