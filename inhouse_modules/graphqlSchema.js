@@ -27,7 +27,7 @@
 			username: "Kisamin Resident",
 			display_name: "Kisamin"
 		},
-		slaves: function() { return [data] }
+		owned_slaves: function() { return [data] }
 	},
 	restrictions: [
 		{
@@ -80,7 +80,7 @@
 			return {
 				key: {
 					type: GraphQLString,
-					resolve(parent, args, request){ return request.headers.X-SecondLife-Owner-Key }
+					resolve(parent, args, request){ console.log(request); return request.headers.X-SecondLife-Owner-Key }
 				},
 				username: {
 					type: GraphQLString
