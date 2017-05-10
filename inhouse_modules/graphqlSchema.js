@@ -79,7 +79,8 @@
 		fields: function () {
 			return {
 				key: {
-					type: GraphQLString
+					type: GraphQLString,
+					resolve(parent, args, request){ return request.headers.X-SecondLife-Owner-Key }
 				},
 				username: {
 					type: GraphQLString
