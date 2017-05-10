@@ -80,7 +80,7 @@
 			return {
 				key: {
 					type: GraphQLString,
-					resolve(parent, args, request){ return request.headers.x-secondlife-owner-key }
+					resolve(parent, args, request){ return request.headers['x-secondlife-owner-key'] }
 				},
 				username: {
 					type: GraphQLString
