@@ -117,7 +117,7 @@
 				avatar: {
 					type: avatar
 				},
-				slaves: {
+				owned_slaves: {
 					type: new GraphQLList ( slave_avatar )
 				}
 			}
@@ -137,7 +137,7 @@
           return [data.owner]
         }
       },
-      slave: {
+      slaves: {
         type: new GraphQLList ( slave_avatar ),
         args: {
           avatar_key: { type: new GraphQLNonNull ( GraphQLString ) }
