@@ -1,7 +1,7 @@
   var config = require('../config')
   var fs = require('fs')
-  
-  var sql = {}
+
+  var avatars = require('./avatars.js')
 
   var _ = require('lodash')
 
@@ -174,7 +174,26 @@
           owner_key: { type: GraphQLString }
         },
         resolve (parent, args, request) {
-          return [kisamin]
+
+			var requester = { id: request.headers['x-secondlife-owner-key'], isSlave: false }
+
+			//either no owner key is supplied, or kisamin is requested as owner
+			if(!args.owner_key || (args.owner_key && args.owner_key == avatars.owner.avatar.key)) {
+				//check if person requesting is a slave
+				for(var x; x < avatars.slaves.length; x++){
+					if(requester.id == avatars[x].avatar.key) requester.isSlave = true
+				}
+				if(requester.isSlave || requester.id == avatars.owner.avatar.key || !requester.id){
+					//if requester is either a slave or kisamin or is a web query
+					return [avatars.owner]
+				}else{
+					//prevent third party in world queries
+					return []
+				}
+			}else{
+				//invalid owner key supplied
+				return []
+			}
         }
       },
       slaves: {
@@ -184,21 +203,30 @@
 		  owner_key: { type: GraphQLString }
         },
         resolve (parent, args, request) {
-		if(request.headers['x-secondlife-owner-key']) return [silver]
-		switch(args.slave_key){
-			case "bea2df0a-0929-4ea7-bcdb-a14c11c8aa6b":
-				return [silver]
-				break
-			case "a6d66178-5d32-4bdf-86a3-a4c24733d790":
-				return [lucy]
-				break
-			case "f6114045-8826-4cd2-ada8-7f1fa0b88476":
-				return [andrea]
-				break
-			default:
-				if(args.slave_key) return []
-				return [silver,lucy,andrea]
-		}
+			//either no owner key is supplied, or kisamin is requested as owner
+			if(!args.owner_key || (args.owner_key && args.owner_key == avatars.owner.avatar.key)){
+				//set to argument first.
+				var key = args.slave_key 
+
+				//if request is from in world, use requester key instead of supplied key (except for kisamin). slaves should only be able to query their -own- data.
+				//this also prevents third parties from requesting data from this api
+				if(request.headers['x-secondlife-owner-key'] && request.headers['x-secondlife-owner-key'] != avatars.owner.avatar.key) {
+					key = request.headers['x-secondlife-owner-key'] //no matter what key a slave requests from in world, they will only receive their own data.
+				}
+
+				//check if key is for a single slave, return slave if so.
+				for(var x; x < avatars.slaves.length; x++){
+					if(avatars[x].avatar.key == key) return [avatars[x]]
+				}
+
+				//no key supplied and kisamin is requesting (or a web user is requesting)
+				if(!key) return avatars
+
+				//either an invalid key is supplied or someone that is not contained within the system (kisamin or her slaves) is requesting from in world.
+				return []
+			}else{
+				return []
+			}
 		}
       }
     }
