@@ -1,7 +1,7 @@
   var config = require('../config')
   var fs = require('fs')
 
-  var avatars = require('./avatars.js')
+  var avatars = require('../avatars.js')
 
   var _ = require('lodash')
 
