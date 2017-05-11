@@ -220,7 +220,7 @@
 				}
 
 				//no key supplied and kisamin is requesting (or a web user is requesting)
-				if(!key) return avatars
+				if(!key) return avatars.slaves
 
 				//either an invalid key is supplied or someone that is not contained within the system (kisamin or her slaves) is requesting from in world.
 				return []
