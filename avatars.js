@@ -24,16 +24,7 @@
 		display_name: "LucyAtreides"
 	},
 	owner: function(){return kisamin},
-	restrictions: [
-		{
-			command: "abc",
-			allow: false
-		},
-		{
-			command: "123",
-			allow: true
-		}
-	]
+	restrictions: []
   }
 
   var andrea = {
@@ -43,16 +34,7 @@
 		display_name: "andrea"
 	},
 	owner: function(){return kisamin},
-	restrictions: [
-		{
-			command: "abc",
-			allow: false
-		},
-		{
-			command: "123",
-			allow: true
-		}
-	]
+	restrictions: []
   }
 
   var kisamin = {
