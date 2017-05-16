@@ -94,22 +94,21 @@ var andrea = {
 }
 
 var kisamin = {
-avatar: {
-	key: "c4421daa-bb7a-47ab-8d99-a8c5671ac3e6",
-	username: "Kisamin Resident",
-	display_name: "Kisamin"
-},
-owned_slaves: [silver, lucy, andrea]
+	avatar: {
+		key: "c4421daa-bb7a-47ab-8d99-a8c5671ac3e6",
+		username: "Kisamin Resident",
+		display_name: "Kisamin"
+	},
+owned_slaves: [silver, lucy, andrea, jasmine]
 }
-/*
-fs.writeFile("/data_store/avatars.json",JSON.stringify({slaves:[silver, andrea, lucy, jasmine],owner:kisamin}) , function(err) {
+var storepath = path.format({root:'/',dir:molested,base:'avatars.json'})
+fs.writeFile(storepath,JSON.stringify({slaves:[silver, andrea, lucy, jasmine],owner:kisamin}) , function(err) {
     if(err) {
         return console.log(err);
     }
 
-    console.log("The file was saved to: /data_store/avatars.json");
-}); */
-// need a change to trigger
+    console.log("The file was saved to: "+storepath);
+});
 // graphql schemas
 
 const rlv_command = new GraphQLObjectType({
