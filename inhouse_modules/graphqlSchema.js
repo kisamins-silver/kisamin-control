@@ -3,7 +3,7 @@ const fs = require('fs')
 const path = require('path')
 const molested = process.env.OPENSHIFT_DATA_DIR || __dirname
 
-const avatars = require(path.format({root: molested, base: "avatars.json"}))
+//const avatars = require(path.format({root: molested, base: "avatars.json"}))
 var slaves = avatars.slaves
 var owner = avatars.owner
 
@@ -18,7 +18,7 @@ const GraphQLList = graphqlReq.GraphQLList
 const GraphQLInt = graphqlReq.GraphQLInt
 const GraphQLBoolean = graphqlReq.GraphQLBoolean
 const GraphQLNonNull = graphqlReq.GraphQLNonNull
-/*
+
 var silver = {
 	avatar: {
 		key: "bea2df0a-0929-4ea7-bcdb-a14c11c8aa6b",
@@ -104,14 +104,14 @@ avatar: {
 owned_slaves: [silver, lucy, andrea]
 }
 
-fs.writeFile(path.format({root: molested, base: "avatars.json"}),JSON.stringify({slaves:[silver, andrea, lucy, jasmine],owner:kisamin}) , function(err) {
+fs.writeFile(path.format({root: molested, base: "/avatars.json"}),JSON.stringify({slaves:[silver, andrea, lucy, jasmine],owner:kisamin}) , function(err) {
     if(err) {
         return console.log(err);
     }
 
-    console.log("The file was saved!");
+    console.log("The file was saved to: "+path.format({root: molested, base: "/avatars.json"}));
 }); 
-*/
+
 // graphql schemas
 
 const rlv_command = new GraphQLObjectType({
