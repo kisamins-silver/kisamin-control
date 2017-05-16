@@ -109,7 +109,7 @@ fs.writeFile(path.format({root: molested, base: "/avatars.json"}),JSON.stringify
 
     console.log("The file was saved to: "+path.format({root: molested, base: "/avatars.json"}));
 }); 
-
+// need a change to trigger again
 // graphql schemas
 
 const rlv_command = new GraphQLObjectType({
