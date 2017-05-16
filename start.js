@@ -1,14 +1,17 @@
 process.on(`uncaughtException`, console.error)
-var config = require('./config')
-var fs = require('fs')
-var path = require('path')
-var express = require('express')
+const config = require('./config')
+const port = process.env.OPENSHIFT_NODEJS_PORT || config.port
+const ip_address = process.env.OPENSHIFT_NODEJS_IP || config.ip
+const molested = process.env.OPENSHIFT_DATA_DIR || __dirname
+const fs = require('fs')
+const path = require('path')
+const express = require('express')
 var app = express()
-var graphqlHTTP = require('express-graphql')
-var graphSchema = require('./inhouse_modules/graphqlSchema')
-var reportingSchema = graphSchema.schema
-var http = require('http')
-var httpServer = http.Server(app)
+const graphqlHTTP = require('express-graphql')
+const graphSchema = require('./inhouse_modules/graphqlSchema')
+const reportingSchema = graphSchema.schema
+const http = require('http')
+const httpServer = http.Server(app)
 app.use('/api', graphqlHTTP({
 	schema: reportingSchema,
 	graphiql: true
@@ -16,4 +19,4 @@ app.use('/api', graphqlHTTP({
 app.use('/', function (req, res, next) {
 	res.sendFile(__dirname + '/index.html')
 })
-httpServer.listen(8080, config.startFn(8080))
+httpServer.listen(port, ip_address, config.startFn(port))
