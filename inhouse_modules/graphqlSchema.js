@@ -39,7 +39,7 @@ var silver = {
 var jasmine = {
 	avatar: {
 		key: "ebbc1a37-467e-4a22-9078-a4e19c295ed9",
-		username: "unknown",
+		username: "Tshira Resident",
 		display_name: "Jasmine Safire"
 	},
 	owner: function(){return kisamin},
