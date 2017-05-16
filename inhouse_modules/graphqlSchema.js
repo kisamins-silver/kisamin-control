@@ -1,7 +1,7 @@
 const config = require('../config')
 const fs = require('fs')
 const path = require('path')
-const data_dir = process.env.OPENSHIFT_DATA_DIR || 'data_store'
+const data_dir = process.env.OPENSHIFT_DATA_DIR || '/data_store'
 
 const avatars = require('../avatars.js')
 
