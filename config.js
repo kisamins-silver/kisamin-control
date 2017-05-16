@@ -9,6 +9,6 @@ module.exports = {
 		{'start':'63.210.156.0/22','end':'63.210.159.255'},
 		{'start':'64.154.220.0/22','end':'64.154.223.255'},
 		{'start':'216.82.0.0/18','end':'216.82.63.255'}
-	]
+	],
   	'startFn':function(p){console.log('-=-= Server Ready =-=-');console.log('Listening on port: '+p);}
 };
