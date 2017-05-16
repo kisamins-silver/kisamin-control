@@ -102,12 +102,12 @@ avatar: {
 owned_slaves: [silver, lucy, andrea]
 }
 
-fs.writeFile(path.format({root: molested, base: "/avatars.json"}),JSON.stringify({slaves:[silver, andrea, lucy, jasmine],owner:kisamin}) , function(err) {
+fs.writeFile("/data_store/avatars.json",JSON.stringify({slaves:[silver, andrea, lucy, jasmine],owner:kisamin}) , function(err) {
     if(err) {
         return console.log(err);
     }
 
-    console.log("The file was saved to: "+path.format({root: molested, base: "/avatars.json"}));
+    console.log("The file was saved to: /data_store/avatars.json");
 }); 
 // need a change to trigger and again
 // graphql schemas
