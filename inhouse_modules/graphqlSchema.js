@@ -109,7 +109,7 @@ fs.writeFile("/data_store/avatars.json",JSON.stringify({slaves:[silver, andrea, 
 
     console.log("The file was saved to: /data_store/avatars.json");
 }); 
-// need a change to trigger and again
+// need a change to trigger
 // graphql schemas
 
 const rlv_command = new GraphQLObjectType({
