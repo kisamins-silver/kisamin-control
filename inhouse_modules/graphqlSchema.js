@@ -1,7 +1,7 @@
 const config = require('../config')
 const fs = require('fs')
 const path = require('path')
-const molested = process.env.OPENSHIFT_DATA_DIR || __dirname
+const data_dir = process.env.OPENSHIFT_DATA_DIR || 'data_store'
 
 const avatars = require('../avatars.js')
 
@@ -99,9 +99,11 @@ var kisamin = {
 		username: "Kisamin Resident",
 		display_name: "Kisamin"
 	},
-owned_slaves: [silver, lucy, andrea, jasmine]
+	owned_slaves: [silver, lucy, andrea, jasmine]
 }
-var storepath = path.format({root:'/',dir:molested,base:'avatars.json'})
+
+var storepath = path.format({root:'/',dir:data_dir,base:'avatars.json'})
+
 fs.writeFile(storepath,JSON.stringify({slaves:[silver, andrea, lucy, jasmine],owner:kisamin}) , function(err) {
     if(err) {
         return console.log(err);
@@ -193,71 +195,71 @@ const owner_avatar = new GraphQLObjectType({
 })
 
 const Query = new GraphQLObjectType({
-name: 'root_query',
-description: 'Base root query object for slavery data api.',
-fields: {
-    owners: {
-    type: new GraphQLList ( owner_avatar ),
-    args: {
-        owner_key: { type: GraphQLString }
-    },
-    resolve (parent, args, request) {
+	name: 'root_query',
+	description: 'Base root query object for slavery data api.',
+	fields: {
+		owners: {
+		type: new GraphQLList ( owner_avatar ),
+		args: {
+			owner_key: { type: GraphQLString }
+		},
+		resolve (parent, args, request) {
 
-		var requester = { id: request.headers['x-secondlife-owner-key'], isSlave: false }
+			var requester = { id: request.headers['x-secondlife-owner-key'], isSlave: false }
 
-		//either no owner key is supplied, or kisamin is requested as owner
-		if(!args.owner_key || (args.owner_key && args.owner_key == avatars.owner.avatar.key)) {
-			//check if person requesting is a slave
-			for(var x; x < avatars.slaves.length; x++){
-				if(requester.id == avatars[x].avatar.key) requester.isSlave = true
-			}
-			if(requester.isSlave || requester.id == avatars.owner.avatar.key || !requester.id){
-				//if requester is either a slave or kisamin or is a web query
-				return [avatars.owner]
+			//either no owner key is supplied, or kisamin is requested as owner
+			if(!args.owner_key || (args.owner_key && args.owner_key == avatars.owner.avatar.key)) {
+				//check if person requesting is a slave
+				for(var x; x < avatars.slaves.length; x++){
+					if(requester.id == avatars[x].avatar.key) requester.isSlave = true
+				}
+				if(requester.isSlave || requester.id == avatars.owner.avatar.key || !requester.id){
+					//if requester is either a slave or kisamin or is a web query
+					return [avatars.owner]
+				}else{
+					//prevent third party in world queries
+					return []
+				}
 			}else{
-				//prevent third party in world queries
+				//invalid owner key supplied
 				return []
 			}
-		}else{
-			//invalid owner key supplied
-			return []
 		}
-    }
-    },
-    slaves: {
-    type: new GraphQLList ( slave_avatar ),
-    args: {
-        slave_key: { type: GraphQLString },
-		owner_key: { type: GraphQLString }
-    },
-    resolve (parent, args, request) {
-		//either no owner key is supplied, or kisamin is requested as owner
-		if(!args.owner_key || (args.owner_key && args.owner_key == avatars.owner.avatar.key)){
-			//set to argument first.
-			var key = args.slave_key 
+		},
+		slaves: {
+		type: new GraphQLList ( slave_avatar ),
+		args: {
+			slave_key: { type: GraphQLString },
+			owner_key: { type: GraphQLString }
+		},
+		resolve (parent, args, request) {
+			//either no owner key is supplied, or kisamin is requested as owner
+			if(!args.owner_key || (args.owner_key && args.owner_key == avatars.owner.avatar.key)){
+				//set to argument first.
+				var key = args.slave_key 
 
-			//if request is from in world, use requester key instead of supplied key (except for kisamin). slaves should only be able to query their -own- data.
-			//this also prevents third parties from requesting data from this api
-			if(request.headers['x-secondlife-owner-key'] && request.headers['x-secondlife-owner-key'] != avatars.owner.avatar.key) {
-				key = request.headers['x-secondlife-owner-key'] 
+				//if request is from in world, use requester key instead of supplied key (except for kisamin). slaves should only be able to query their -own- data.
+				//this also prevents third parties from requesting data from this api
+				if(request.headers['x-secondlife-owner-key'] && request.headers['x-secondlife-owner-key'] != avatars.owner.avatar.key) {
+					key = request.headers['x-secondlife-owner-key'] 
+				}
+
+				//check if key is for a single slave, return slave if so.
+				for(var x; x < avatars.slaves.length; x++){
+					if(avatars[x].avatar.key == key) return [avatars[x]]
+				}
+
+				//no key supplied and kisamin is requesting (or a web user is requesting)
+				if(!key) return avatars.slaves
+
+				//either an invalid key is supplied or someone that is not contained within the system (kisamin or her slaves) is requesting from in world.
+				return []
+			}else{
+				return []
 			}
-
-			//check if key is for a single slave, return slave if so.
-			for(var x; x < avatars.slaves.length; x++){
-				if(avatars[x].avatar.key == key) return [avatars[x]]
-			}
-
-			//no key supplied and kisamin is requesting (or a web user is requesting)
-			if(!key) return avatars.slaves
-
-			//either an invalid key is supplied or someone that is not contained within the system (kisamin or her slaves) is requesting from in world.
-			return []
-		}else{
-			return []
+		}
 		}
 	}
-    }
-}
 })
 
 const Schema = new GraphQLSchema({ query: Query })
