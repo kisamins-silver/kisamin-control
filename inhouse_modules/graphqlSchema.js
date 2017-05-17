@@ -100,6 +100,7 @@ const owner_avatar = new GraphQLObjectType({
 				resolve (parent, args, request) {
 					var slavelist = []
 					for (var x = 0; x < slaves.length; x++ ){
+					console.log(slaves[x])
 						if ( slaves[x].owner.avatar.key == parent.avatar.key ) slavelist.push(slave[x])
 					}
 					return slavelist
@@ -114,40 +115,40 @@ const Query = new GraphQLObjectType({
 	description: 'Base root query object for slavery data api.',
 	fields: {
 		owners: {
-		type: new GraphQLList ( owner_avatar ),
-		args: {
-			owner_key: { type: GraphQLString }
-		},
-		resolve (parent, args, request) {
+			type: new GraphQLList ( owner_avatar ),
+			args: {
+				owner_key: { type: GraphQLString }
+			},
+			resolve (parent, args, request) {
 
-			var requester = { id: request.headers['x-secondlife-owner-key'], isSlave: false }
+				var requester = { id: request.headers['x-secondlife-owner-key'], isSlave: false }
 
-			//either no owner key is supplied, or kisamin is requested as owner
-			if(!args.owner_key || (args.owner_key && args.owner_key == owner.avatar.key)) {
-				//check if person requesting is a slave
-				for(var x; x < slaves.length; x++){
-					if(requester.id == slaves[x].avatar.key) requester.isSlave = true
-				}
-				if(requester.isSlave || requester.id == owner.avatar.key || !requester.id){
-					//if requester is either a slave or kisamin or is a web query
-					return [owner]
+				//either no owner key is supplied, or kisamin is requested as owner
+				if(!args.owner_key || (args.owner_key && args.owner_key == owner.avatar.key)) {
+					//check if person requesting is a slave
+					for(var x; x < slaves.length; x++){
+						if(requester.id == slaves[x].avatar.key) requester.isSlave = true
+					}
+					if(requester.isSlave || requester.id == owner.avatar.key || !requester.id){
+						//if requester is either a slave or kisamin or is a web query
+						return [owner]
+					}else{
+						//prevent third party in world queries
+						return []
+					}
 				}else{
-					//prevent third party in world queries
+					//invalid owner key supplied
 					return []
 				}
-			}else{
-				//invalid owner key supplied
-				return []
 			}
-		}
 		},
 		slaves: {
-		type: new GraphQLList ( slave_avatar ),
-		args: {
-			slave_key: { type: GraphQLString },
-			owner_key: { type: GraphQLString }
-		},
-		resolve (parent, args, request) {
+			type: new GraphQLList ( slave_avatar ),
+			args: {
+				slave_key: { type: GraphQLString },
+				owner_key: { type: GraphQLString }
+			},
+			resolve (parent, args, request) {
 			//either no owner key is supplied, or kisamin is requested as owner
 			if(!args.owner_key || (args.owner_key && args.owner_key == owner.avatar.key)){
 				//set to argument first.
