@@ -103,8 +103,6 @@ const owner_avatar = new GraphQLObjectType({
 				resolve (parent, args, request) {
 					var slavelist = []
 					for (var x = 0; x < slaves.length; x++ ){
-					console.log(parent)
-					console.log(slaves[x])
 						if ( slaves[x].owner.avatar.key == parent.avatar.key ) slavelist.push(slave[x])
 					}
 					return slavelist
@@ -181,6 +179,18 @@ const Query = new GraphQLObjectType({
 		}
 	}
 })
+
+for(var x = 0; x < slaves.length; x++){
+	slaves[x].owner = kisamin
+}
+delete owner.owned_slaves
+fs.writeFile(storepath,JSON.stringify({slaves:slaves,owner:owner}) , function(err) {
+		if(err) {
+			return console.log(err);
+		}
+
+		console.log("The file was saved to: "+storepath);
+	});
 
 const Schema = new GraphQLSchema({ query: Query })
 
