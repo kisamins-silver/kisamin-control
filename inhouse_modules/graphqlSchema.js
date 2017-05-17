@@ -8,8 +8,6 @@ const avatars = require(path.format({root:'/',dir:data_dir,base:'avatars.json'})
 var slaves = avatars.slaves
 var owner = avatars.owner
 
-console.log(slaves)
-
 const _ = require('lodash')
 
 const graphqlReq = require('graphql')
@@ -145,7 +143,7 @@ const Query = new GraphQLObjectType({
 				}
 			}
 		},
-		owned_slaves: {
+		slaves: {
 			type: new GraphQLList ( slave_avatar ),
 			args: {
 				slave_key: { type: GraphQLString },
@@ -159,6 +157,7 @@ const Query = new GraphQLObjectType({
 
 				var ip = request.headers['x-forwarded-for'].split(',').pop() || request.connection.remoteAddress || request.socket.remoteAddress || request.connection.socket.remoteAddress
 				console.log(ip)
+
 				if( !h || ipRangeCheck ( ip, config.second_life_IP_ranges ) ) {
 					console.log('successful ip check')
 
@@ -167,15 +166,8 @@ const Query = new GraphQLObjectType({
 						s = h
 					}
 
-					console.log(o)
-					console.log(s)
-					console.log(h)
-					console.log('beginning slave checks')
-					console.log(slaves.length)
-					console.log(slaves)
 					for ( var x = 0; x < slaves.length; x++ ) {
 						var ts = slaves[x]
-						console.log(ts)
 
 						if ( s && s == ts.avatar.key && ( !o || o == ts.owner.avatar.key ) ) return [ts]
 						if ( o && o == ts.owner.avatar.key ) arr.push(ts)
@@ -183,7 +175,7 @@ const Query = new GraphQLObjectType({
 
 					return arr
 				}else{
-					console.log('bad ip range')
+					console.log('bad ip')
 					return []
 				}
 			}
