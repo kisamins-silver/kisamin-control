@@ -7,9 +7,6 @@ const avatars = require(path.format({root:'/',dir:data_dir,base:'avatars.json'})
 var slaves = avatars.slaves
 var owner = avatars.owner
 
-console.log(data_dir)
-console.log(owner)
-
 const _ = require('lodash')
 
 const graphqlReq = require('graphql')
@@ -181,7 +178,7 @@ const Query = new GraphQLObjectType({
 })
 
 for(var x = 0; x < slaves.length; x++){
-	slaves[x].owner = kisamin
+	slaves[x].owner = owner
 }
 delete owner.owned_slaves
 fs.writeFile(storepath,JSON.stringify({slaves:slaves,owner:owner}) , function(err) {
