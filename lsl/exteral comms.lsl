@@ -1,4 +1,4 @@
-string externalURL = "http://kisamin-control-kisamin-control.1d35.starter-us-east-1.openshiftapps.com/api?query=";
+string externalURL = "http://kisamin-control-center-kisamin-rlv-controler.1d35.starter-us-east-1.openshiftapps.com/api?query=";
 string internalURL;
 string url;
 

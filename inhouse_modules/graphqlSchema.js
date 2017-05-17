@@ -99,7 +99,7 @@ const owner_avatar = new GraphQLObjectType({
 				type: avatar
 			},
 			owned_slaves: {
-				type: new GraphQLList ( slave_avatar )
+				type: new GraphQLList ( slave_avatar ),
 				resolve (parent, args, request) {
 					var slavelist = []
 					for (var x = 0; x < slaves.length; x++ ){
