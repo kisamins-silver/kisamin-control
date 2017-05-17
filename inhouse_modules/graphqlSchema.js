@@ -21,101 +21,7 @@ const GraphQLList = graphqlReq.GraphQLList
 const GraphQLInt = graphqlReq.GraphQLInt
 const GraphQLBoolean = graphqlReq.GraphQLBoolean
 const GraphQLNonNull = graphqlReq.GraphQLNonNull
-/*
-var silver = {
-	avatar: {
-		key: "bea2df0a-0929-4ea7-bcdb-a14c11c8aa6b",
-		username: "lilshino Resident",
-		display_name: "Kisa's Silver"
-	},
-	owner: function(){return kisamin},
-	restrictions: [
-		{
-			command: "abc",
-			allow: false
-		},
-		{
-			command: "123",
-			allow: true
-		}
-	]
-}
 
-var jasmine = {
-	avatar: {
-		key: "ebbc1a37-467e-4a22-9078-a4e19c295ed9",
-		username: "Tshira Resident",
-		display_name: "Jasmine Safire"
-	},
-	owner: function(){return kisamin},
-	restrictions: [
-		{
-			command: "abc",
-			allow: false
-		},
-		{
-			command: "123",
-			allow: true
-		}
-	]
-}
-
-var lucy = {
-	avatar: {
-		key: "a6d66178-5d32-4bdf-86a3-a4c24733d790",
-		username: "LucyAtreides Resident",
-		display_name: "LucyAtreides"
-	},
-	owner: function(){return kisamin},
-	restrictions: [
-		{
-			command: "abc",
-			allow: false
-		},
-		{
-			command: "123",
-			allow: true
-		}
-	]
-}
-
-var andrea = {
-	avatar: {
-		key: "f6114045-8826-4cd2-ada8-7f1fa0b88476",
-		username: "Andrea80 Sands",
-		display_name: "andrea"
-	},
-	owner: function(){return kisamin},
-	restrictions: [
-		{
-			command: "abc",
-			allow: false
-		},
-		{
-			command: "123",
-			allow: true
-		}
-	]
-}
-
-var kisamin = {
-	avatar: {
-		key: "c4421daa-bb7a-47ab-8d99-a8c5671ac3e6",
-		username: "Kisamin Resident",
-		display_name: "Kisamin"
-	},
-	owned_slaves: [silver, lucy, andrea, jasmine]
-}
-
-var storepath = path.format({root:'/',dir:data_dir,base:'avatars.json'})
-
-fs.writeFile(storepath,JSON.stringify({slaves:[silver, andrea, lucy, jasmine],owner:kisamin}) , function(err) {
-    if(err) {
-        return console.log(err);
-    }
-
-    console.log("The file was saved to: "+storepath);
-});*/
 // graphql schemas
 
 const rlv_command = new GraphQLObjectType({
@@ -194,6 +100,13 @@ const owner_avatar = new GraphQLObjectType({
 			},
 			owned_slaves: {
 				type: new GraphQLList ( slave_avatar )
+				resolve (parent, args, request) {
+					var slavelist = []
+					for (var x = 0; x < slaves.length; x++ ){
+						if ( slaves[x].owner.avatar.key == parent.owner.avatar.key ) slavelist.push(slave[x])
+					}
+					return slavelist
+				}
 			}
 		}
 	}
@@ -270,3 +183,100 @@ const Query = new GraphQLObjectType({
 const Schema = new GraphQLSchema({ query: Query })
 
 module.exports = {'schema': Schema}
+
+/*
+	var silver = {
+		avatar: {
+			key: "bea2df0a-0929-4ea7-bcdb-a14c11c8aa6b",
+			username: "lilshino Resident",
+			display_name: "Kisa's Silver"
+		},
+		owner: function(){return kisamin},
+		restrictions: [
+			{
+				command: "abc",
+				allow: false
+			},
+			{
+				command: "123",
+				allow: true
+			}
+		]
+	}
+
+	var jasmine = {
+		avatar: {
+			key: "ebbc1a37-467e-4a22-9078-a4e19c295ed9",
+			username: "Tshira Resident",
+			display_name: "Jasmine Safire"
+		},
+		owner: function(){return kisamin},
+		restrictions: [
+			{
+				command: "abc",
+				allow: false
+			},
+			{
+				command: "123",
+				allow: true
+			}
+		]
+	}
+
+	var lucy = {
+		avatar: {
+			key: "a6d66178-5d32-4bdf-86a3-a4c24733d790",
+			username: "LucyAtreides Resident",
+			display_name: "LucyAtreides"
+		},
+		owner: function(){return kisamin},
+		restrictions: [
+			{
+				command: "abc",
+				allow: false
+			},
+			{
+				command: "123",
+				allow: true
+			}
+		]
+	}
+
+	var andrea = {
+		avatar: {
+			key: "f6114045-8826-4cd2-ada8-7f1fa0b88476",
+			username: "Andrea80 Sands",
+			display_name: "andrea"
+		},
+		owner: function(){return kisamin},
+		restrictions: [
+			{
+				command: "abc",
+				allow: false
+			},
+			{
+				command: "123",
+				allow: true
+			}
+		]
+	}
+
+	var kisamin = {
+		avatar: {
+			key: "c4421daa-bb7a-47ab-8d99-a8c5671ac3e6",
+			username: "Kisamin Resident",
+			display_name: "Kisamin"
+		},
+		owned_slaves: [silver, lucy, andrea, jasmine]
+	}
+
+	var storepath = path.format({root:'/',dir:data_dir,base:'avatars.json'})
+
+	fs.writeFile(storepath,JSON.stringify({slaves:[silver, andrea, lucy, jasmine],owner:kisamin}) , function(err) {
+		if(err) {
+			return console.log(err);
+		}
+
+		console.log("The file was saved to: "+storepath);
+	});
+*/
