@@ -162,6 +162,7 @@ const Query = new GraphQLObjectType({
 
 				if( h ) {
 					var addr = ipaddr.parse( ip )
+					console.log(addr)
 					for ( var i = 0; i < config.second_life_IP_ranges.length; i++ ){
 						if ( addr.match( ipaddr.parseCIDR( config.second_life_IP_ranges[i] ) ) ) validIP = true
 					}
