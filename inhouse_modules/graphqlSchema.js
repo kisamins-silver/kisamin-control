@@ -2,6 +2,7 @@ const config = require('../config')
 const fs = require('fs')
 const path = require('path')
 const data_dir = process.env.OPENSHIFT_DATA_DIR || '/data_store'
+const ipRangeCheck = require('ip-range-check')
 
 const avatars = require(path.format({root:'/',dir:data_dir,base:'avatars.json'}))
 var slaves = avatars.slaves
@@ -154,18 +155,22 @@ const Query = new GraphQLObjectType({
 				var h = request.headers['x-secondlife-owner-key']
 				var arr = []
 
-				if (h && h != owner.avatar.key) {
-					s = h
-				}
+				var ip = request.headers['x-forwarded-for'].split(',').pop() || request.connection.remoteAddress || request.socket.remoteAddress || request.connection.socket.remoteAddress
 
-				for (var x = 0; x < slaves.length; x++) {
-					var ts = slaves[x]
+				if( !h || ipRangeCheck ( ip, config.second_life_IP_ranges ) ) {
+					if (h && h != owner.avatar.key) {
+						s = h
+					}
 
-					if ( s && s == ts.avatar.key && ( !o || ( o && o == ts.owner.avatar.key ) ) ) return [ts]
-					if ( o && o == ts.owner.avatar.key ) arr.push(ts)
-				}
+					for (var x = 0; x < slaves.length; x++) {
+						var ts = slaves[x]
 
-				return arr
+						if ( s && s == ts.avatar.key && ( !o || ( o && o == ts.owner.avatar.key ) ) ) return [ts]
+						if ( o && o == ts.owner.avatar.key ) arr.push(ts)
+					}
+
+					return arr
+				}else{ return [] }
 			}
 		}
 	}

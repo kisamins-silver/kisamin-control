@@ -28,6 +28,7 @@
 		"express-graphql": "",
 		"graphql": "",
 		"jsonwebtoken": "",
-		"lodash": ""
+		"lodash": "",
+		"ip-range-check": ""
 	}
 }
