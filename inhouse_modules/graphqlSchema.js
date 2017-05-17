@@ -149,31 +149,24 @@ const Query = new GraphQLObjectType({
 				owner_key: { type: GraphQLString }
 			},
 			resolve (parent, args, request) {
-			//either no owner key is supplied, or kisamin is requested as owner
-			if(!args.owner_key || (args.owner_key && args.owner_key == owner.avatar.key)){
-				//set to argument first.
-				var key = args.slave_key 
+				var o = args.owner_key
+				var s = args.slave_key
+				var h = request.headers['x-secondlife-owner-key']
+				var arr = []
 
-				//if request is from in world, use requester key instead of supplied key (except for kisamin). slaves should only be able to query their -own- data.
-				//this also prevents third parties from requesting data from this api
-				if(request.headers['x-secondlife-owner-key'] && request.headers['x-secondlife-owner-key'] != owner.avatar.key) {
-					key = request.headers['x-secondlife-owner-key'] 
+				if (h && h != owner.avatar.key) {
+					s = h
 				}
 
-				//check if key is for a single slave, return slave if so.
-				for(var x; x < slaves.length; x++){
-					if(slaves[x].avatar.key == key) return [slaves[x]]
+				for (var x = 0; x < slaves.length; x++) {
+					var ts = slaves[x]
+
+					if ( s && s == s.avatar.key && ( !o || ( o && o == ts.owner.avatar.key ) ) ) return [ts]
+					if ( o && o == ts.owner.avatar.key ) arr.push(ts)
 				}
 
-				//no key supplied and kisamin is requesting (or a web user is requesting)
-				if(!key) return slaves
-
-				//either an invalid key is supplied or someone that is not contained within the system (kisamin or her slaves) is requesting from in world.
-				return []
-			}else{
-				return []
+				return arr
 			}
-		}
 		}
 	}
 })
