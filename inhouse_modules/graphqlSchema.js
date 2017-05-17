@@ -2,7 +2,7 @@ const config = require('../config')
 const fs = require('fs')
 const path = require('path')
 const data_dir = process.env.OPENSHIFT_DATA_DIR || '/data_store'
-const ipaddr = require('ipaddr')
+const ipaddr = require('ipaddr.js')
 
 const avatars = require(path.format({root:'/',dir:data_dir,base:'avatars.json'}))
 var slaves = avatars.slaves
@@ -161,8 +161,9 @@ const Query = new GraphQLObjectType({
 				var validIP = false
 
 				if( h ) {
+					var addr = ipaddr.parse( ip )
 					for ( var i = 0; i < config.second_life_IP_ranges.length; i++ ){
-						if ( ipaddr.parse( ip ).match( ipaddr.parseCIDR( config.second_life_IP_ranges[i] ) ) ) validIP = true
+						if ( addr.match( ipaddr.parseCIDR( config.second_life_IP_ranges[i] ) ) ) validIP = true
 					}
 				}else{
 					validIP = true

@@ -29,6 +29,6 @@
 		"graphql": "",
 		"jsonwebtoken": "",
 		"lodash": "",
-		"ipaddr": ""
+		"ipaddr.js": ""
 	}
 }
