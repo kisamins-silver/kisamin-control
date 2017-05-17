@@ -176,6 +176,7 @@ const Query = new GraphQLObjectType({
 					return arr
 				}else{
 					console.log('bad ip')
+					console.log(config.second_life_IP_ranges)
 					return []
 				}
 			}
