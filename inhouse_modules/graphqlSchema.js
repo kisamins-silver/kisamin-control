@@ -1,7 +1,7 @@
 const config = require('../config')
 const fs = require('fs')
 const path = require('path')
-const data_dir = process.env.OPENSHIFT_DATA_DIR || __dirname
+const data_dir = process.env.OPENSHIFT_DATA_DIR || '/data_store'
 const ipRangeCheck = require('ip-range-check')
 
 const avatars = require(path.format({root:'/',dir:data_dir,base:'avatars.json'}))
