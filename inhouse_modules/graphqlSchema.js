@@ -165,12 +165,15 @@ const Query = new GraphQLObjectType({
 					for ( var x = 0; x < slaves.length; x++ ) {
 						var ts = slaves[x]
 
-						if ( s && s == ts.avatar.key && ( !o || ( o && o == ts.owner.avatar.key ) ) ) return [ts]
+						if ( s && s == ts.avatar.key && ( !o || o == ts.owner.avatar.key ) ) return [ts]
 						if ( o && o == ts.owner.avatar.key ) arr.push(ts)
 					}
 
 					return arr
-				}else{ return [] }
+				}else{
+					console.log('bad ip range')
+					return []
+				}
 			}
 		}
 	}
