@@ -19,5 +19,4 @@ app.use('/api', graphqlHTTP({
 app.use('/', function (req, res, next) {
 	res.sendFile(__dirname + 'website/index.html')
 })
-console.log(port)
 httpServer.listen(port, config.startFn(port))
