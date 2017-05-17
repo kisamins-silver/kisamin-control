@@ -158,12 +158,20 @@ const Query = new GraphQLObjectType({
 				var ip = request.headers['x-forwarded-for'].split(',').pop() || request.connection.remoteAddress || request.socket.remoteAddress || request.connection.socket.remoteAddress
 				console.log(ip)
 				if( !h || ipRangeCheck ( ip, config.second_life_IP_ranges ) ) {
+					console.log('successful ip check')
+
 					if ( h && h != owner.avatar.key ) {
+						console.log('force slave key')
 						s = h
 					}
 
+					console.log(o)
+					console.log(s)
+					console.log(h)
+					console.log('beginning slave checks')
 					for ( var x = 0; x < slaves.length; x++ ) {
 						var ts = slaves[x]
+						console.log(ts)
 
 						if ( s && s == ts.avatar.key && ( !o || o == ts.owner.avatar.key ) ) return [ts]
 						if ( o && o == ts.owner.avatar.key ) arr.push(ts)
