@@ -267,7 +267,6 @@ const Query = new GraphQLObjectType({
 	}
 })
 
-
 const Schema = new GraphQLSchema({ query: Query })
 
 module.exports = {'schema': Schema}
