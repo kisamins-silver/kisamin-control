@@ -2,7 +2,7 @@
 	"name": "kisamin-control",
 	"version": "0.5.0",
 	"description": "Second Life RLV and Slave Control System for Kisamin.",
-	"keywords": ["second life","secondlife","rlv","slavery","submission","dominance","bdsm","Ds"]
+	"keywords": ["second life","secondlife","rlv","slavery","submission","dominance","bdsm","Ds"],
 	"homepage": "http://secondlife.com",
 	"bugs": { 
 		"url" : "https://github.com/kisamins-silver/kisamin-control/issues",
