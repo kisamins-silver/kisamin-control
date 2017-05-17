@@ -8,6 +8,8 @@ const avatars = require(path.format({root:'/',dir:data_dir,base:'avatars.json'})
 var slaves = avatars.slaves
 var owner = avatars.owner
 
+console.log(slaves)
+
 const _ = require('lodash')
 
 const graphqlReq = require('graphql')
@@ -143,7 +145,7 @@ const Query = new GraphQLObjectType({
 				}
 			}
 		},
-		slaves: {
+		owned_slaves: {
 			type: new GraphQLList ( slave_avatar ),
 			args: {
 				slave_key: { type: GraphQLString },
