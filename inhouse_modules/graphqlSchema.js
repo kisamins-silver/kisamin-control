@@ -7,19 +7,6 @@ const avatars = require(path.format({root:'/',dir:data_dir,base:'avatars.json'})
 var slaves = avatars.slaves
 var owner = avatars.owner
 
-for (var x = 0; x < slaves.length; x++ ){
-	slaves[x].owner = owner
-}
-	var storepath = path.format({root:'/',dir:data_dir,base:'avatars.json'})
-
-	fs.writeFile(storepath,JSON.stringify({slaves:slaves,owner:owner}) , function(err) {
-		if(err) {
-			return console.log(err);
-		}
-
-		console.log("The file was saved to: "+storepath);
-	});
-
 const _ = require('lodash')
 
 const graphqlReq = require('graphql')
@@ -114,7 +101,7 @@ const owner_avatar = new GraphQLObjectType({
 					var slavelist = []
 					for (var x = 0; x < slaves.length; x++ ){
 					console.log(slaves[x])
-						if ( slaves[x].owner.avatar.key == parent.avatar.key ) slavelist.push(slave[x])
+						if ( slaves[x].owner.avatar.key == parent.avatar.key ) slavelist.push(slaves[x])
 					}
 					return slavelist
 				}
