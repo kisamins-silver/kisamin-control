@@ -7,6 +7,9 @@ const avatars = require(path.format({root:'/',dir:data_dir,base:'avatars.json'})
 var slaves = avatars.slaves
 var owner = avatars.owner
 
+console.log(data_dir)
+console.log(owner)
+
 const _ = require('lodash')
 
 const graphqlReq = require('graphql')
