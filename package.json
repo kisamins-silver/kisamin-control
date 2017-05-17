@@ -29,6 +29,6 @@
 		"graphql": "",
 		"jsonwebtoken": "",
 		"lodash": "",
-		"ip-range-check": ""
+		"ipaddr": ""
 	}
 }

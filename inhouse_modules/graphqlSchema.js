@@ -2,7 +2,7 @@ const config = require('../config')
 const fs = require('fs')
 const path = require('path')
 const data_dir = process.env.OPENSHIFT_DATA_DIR || '/data_store'
-const ipRangeCheck = require('ip-range-check')
+const ipaddr = require('ipaddr')
 
 const avatars = require(path.format({root:'/',dir:data_dir,base:'avatars.json'}))
 var slaves = avatars.slaves
@@ -157,8 +157,18 @@ const Query = new GraphQLObjectType({
 
 				var ip = request.headers['x-forwarded-for'].split(',').pop() || request.connection.remoteAddress || request.socket.remoteAddress || request.connection.socket.remoteAddress
 				console.log(ip)
+				
+				var validIP = false
 
-				if( !h || ipRangeCheck ( ip, config.second_life_IP_ranges ) ) {
+				if( h ) {
+					for ( var i = 0; i < config.second_life_IP_ranges.length; i++ ){
+						if ( ipaddr.parse( ip ).match( ipaddr.parseCIDR( config.second_life_IP_ranges[i] ) ) ) validIP = true
+					}
+				}else{
+					validIP = true
+				}
+
+				if ( validIP ){
 					console.log('successful ip check')
 
 					if ( h && h != owner.avatar.key ) {
