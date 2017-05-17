@@ -169,6 +169,8 @@ const Query = new GraphQLObjectType({
 					console.log(s)
 					console.log(h)
 					console.log('beginning slave checks')
+					console.log(slaves.length)
+					console.log(slaves)
 					for ( var x = 0; x < slaves.length; x++ ) {
 						var ts = slaves[x]
 						console.log(ts)
