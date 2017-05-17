@@ -103,7 +103,7 @@ const owner_avatar = new GraphQLObjectType({
 				resolve (parent, args, request) {
 					var slavelist = []
 					for (var x = 0; x < slaves.length; x++ ){
-						if ( slaves[x].owner.avatar.key == parent.owner.avatar.key ) slavelist.push(slave[x])
+						if ( slaves[x].owner.avatar.key == parent.avatar.key ) slavelist.push(slave[x])
 					}
 					return slavelist
 				}
