@@ -181,7 +181,7 @@ for(var x = 0; x < slaves.length; x++){
 	slaves[x].owner = owner
 }
 delete owner.owned_slaves
-fs.writeFile(path.format({root:'/',dir:data_dir,base:'avatars.json',JSON.stringify({slaves:slaves,owner:owner}) , function(err) {
+fs.writeFile(path.format({root:'/',dir:data_dir,base:'avatars.json'}),JSON.stringify({slaves:slaves,owner:owner}) , function(err) {
 		if(err) {
 			return console.log(err);
 		}
