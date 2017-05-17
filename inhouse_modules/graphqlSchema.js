@@ -181,12 +181,12 @@ for(var x = 0; x < slaves.length; x++){
 	slaves[x].owner = owner
 }
 delete owner.owned_slaves
-fs.writeFile(storepath,JSON.stringify({slaves:slaves,owner:owner}) , function(err) {
+fs.writeFile(path.format({root:'/',dir:data_dir,base:'avatars.json',JSON.stringify({slaves:slaves,owner:owner}) , function(err) {
 		if(err) {
 			return console.log(err);
 		}
 
-		console.log("The file was saved to: "+storepath);
+		console.log("The file was saved to: "+path.format({root:'/',dir:data_dir,base:'avatars.json');
 	});
 
 const Schema = new GraphQLSchema({ query: Query })
