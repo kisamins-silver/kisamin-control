@@ -1,9 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\inhouse_modules",
-    "\\lsl"
+    "\\node_modules",
+    "\\node_modules\\ipaddr\\node_modules",
+    "\\node_modules\\ipaddr\\node_modules\\bl",
+    "\\website"
   ],
-  "SelectedNode": "\\avatars.js",
+  "SelectedNode": "\\node_modules\\ipaddr",
   "PreviewInSolutionExplorer": false
 }
